@@ -24,6 +24,7 @@ The tutorials are easy to follow and yield immediate results, so have fun buildi
 
 - install [Node.js](https://nodejs.org/en/) (use LTS); verify it works `node -v`
 - should also install [VS Code](https://code.visualstudio.com/)
+- [Markdown Preview Plus Chrome extension](https://chrome.google.com/webstore/detail/markdown-preview-plus/febilkbfcbhebfnokafefeacimjdckgl)
 
 ---
 
@@ -39,7 +40,7 @@ The tutorials are easy to follow and yield immediate results, so have fun buildi
 
 ### [1. Javascript](docs/1-javascript.md)
 
-### 2. Typescript: modules 1-4 from [NodeJs API for a .NET developer](https://code.waters.com/bitbucket/users/rovian/repos/nodejs-api-for-a-.net-developer/browse) workshop
+### 2. Typescript: modules 1-4 from [NodeJs API for a .NET developer](https://code.waters.com/bitbucket/users/rovian/repos/nodejs-api-for-a-.net-developer/browse)
 
 ### 3. [Angular (1/2)](docs/3-angular.md)
 
