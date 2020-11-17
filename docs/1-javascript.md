@@ -2,6 +2,13 @@
 
 ## 1. Javascript
 
+- [History](#History)
+- [Usage](#Usage)
+- [Modules](#Modules)
+- [Specifics](#Specifics)
+- [To do](#To-do)
+- [Resources](#Resources)
+
 ---
 
 ## History
@@ -240,3 +247,7 @@ Advanced topics
 - [W3C tutorials and courses](https://www.w3.org/2002/03/tutorials)
 - [codesandbox](https://codesandbox.io/)
 - [Chrome .md viewer](https://chrome.google.com/webstore/detail/markdown-preview-plus/)
+
+---
+
+[Next: modules 1-4 from NodeJs API for a .NET developer](https://code.waters.com/bitbucket/users/rovian/repos/nodejs-api-for-a-.net-developer/browse) workshop
