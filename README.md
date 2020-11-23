@@ -2,7 +2,7 @@
 
 - [About this repo](#about-this-repo)
 - [Prep env](#prep-env)
-- [Share presentation](#share-presentation)
+- [Presentation server](#presentation-server)
 - [Resources](#resources)
 - [Workshop modules](#workshop-modules)
 
@@ -29,11 +29,9 @@ The tutorials are easy to follow and yield immediate results, so have fun buildi
 
 ---
 
-## Share presentation
+## Presentation server
 
-- start share server `npx http-server .`
-- access this md [http://10.231.70.62:8080/README.md](http://10.231.70.62:8080/README.md)
-- access live shared content [http://10.231.70.62:8080/code-share.txt](http://10.231.70.62:8080/code-share.txt)
+- start presentation server `npm start`
 
 ---
 
