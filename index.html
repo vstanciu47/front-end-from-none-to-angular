@@ -4,13 +4,16 @@
     <title>Code share</title>
     <style>
         h3 {
-            border-bottom: 1px solid #CCC;
-            padding-bottom: 10px;
             user-select: none;
         }
 
         h3>a {
             text-decoration: none;
+            padding: 2px 5px;
+            border: 1px solid #ffdbcd;
+            border-radius: 3px;
+            color: #ff8252;
+            font-size: .75rem;
         }
 
         code {
@@ -35,7 +38,10 @@
 
 <body>
     <h3>
-        <a href="README.md" target="_blank">README.md</a>
+        <a target="_blank"
+            href="https://chrome.google.com/webstore/detail/markdown-preview-plus/febilkbfcbhebfnokafefeacimjdckgl">.md
+            viewer</a>
+        <a target="_blank" href="README.md">README.md</a>
     </h3>
     <code></code>
     <textarea></textarea>
@@ -45,12 +51,10 @@
         const elem = document.querySelector(isLocal ? "textarea" : "code");
         elem.style.display = "block";
         if (isLocal) {
+            elem.value = `ws://code.share`;
             let opened = false;
-            elem.value =
-                `start presentation server "npm start"\n` +
-                `share it with the audience http://10.231.70.62:8080\n`;
+            ws.onopen = () => (opened = true, ws.send(elem.value));
             elem.onchange = elem.onpaste = elem.onkeyup = () => opened && ws.send(elem.value);
-            ws.onopen = () => (opened = true, ws.send(elem.value)); 
             ws.onclose = () => opened = false;
         } else {
             ws.onmessage = message => elem.textContent = message.data;

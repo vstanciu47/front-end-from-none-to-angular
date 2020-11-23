@@ -32,6 +32,7 @@ The tutorials are easy to follow and yield immediate results, so have fun buildi
 ## Presentation server
 
 - start presentation server `npm start`
+- share it with the audience `http://10.231.70.62:4280`
 
 ---
 
