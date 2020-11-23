@@ -2,14 +2,14 @@
 
 ## 3. Angular (1/3)
 
-- [Prerequisites](#Prerequisites)
+- [Prerequisites](#prerequisites)
 
-- [Angular CLI](#Angular-CLI)
-- [Routing, feature modules, routing modules](#Routing-feature-modules-routing-modules)
-- [Binding](#Binding)
-- [Exercises](#Exercises)
+- [Angular CLI](#angular-cli)
+- [Routing, feature modules, routing modules](#routing-feature-modules-routing-modules)
+- [Binding](#binding)
+- [Exercises](#exercises)
 
-- [Next](#Next)
+- [Next](#next)
 
 ---
 

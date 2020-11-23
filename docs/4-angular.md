@@ -2,15 +2,15 @@
 
 ## 4. Angular (1/3)
 
-- [Prerequisites](#Prerequisites)
+- [Prerequisites](#prerequisites)
 
-- [Services](#Services)
-- [Proxies](#Proxies)
-- [Interceptors](#Interceptors)
-- [Guards](#Guards)
-- [Exercises](#Exercises)
+- [Services](#services)
+- [Proxies](#proxies)
+- [Interceptors](#interceptors)
+- [Guards](#guards)
+- [Exercises](#exercises)
 
-- [Next](#Next)
+- [Next](#next)
 
 ---
 

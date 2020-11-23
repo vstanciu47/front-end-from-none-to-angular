@@ -2,15 +2,15 @@
 
 ## 1. Javascript
 
-- [History](#History)
-- [Usage](#Usage)
-- [Modules](#Modules)
-- [Specifics](#Specifics)
-- [Exercises](#Exercises)
-- [Resources](#Resources)
-- [Notes](#Notes)
+- [History](#history)
+- [Usage](#usage)
+- [Modules](#modules)
+- [Specifics](#specifics)
+- [Exercises](#exercises)
+- [Resources](#resources)
+- [Notes](#notes)
 
-- [Next](#Next)
+- [Next](#next)
 
 ---
 

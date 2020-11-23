@@ -2,11 +2,11 @@
 
 ## 6. RxJs
 
-- [Prerequisites](#Prerequisites)
+- [Prerequisites](#prerequisites)
 
-- [Exercises](#Exercises)
+- [Exercises](#exercises)
 
-- [Next](#Next)
+- [Next](#next)
 
 ---
 

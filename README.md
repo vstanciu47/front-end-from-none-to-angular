@@ -1,10 +1,10 @@
 # [Front-end from none to Angular](README.md)
 
-- [About this repo](#About-this-repo)
-- [Prep env](#Prep-env)
-- [Share presentation](#Share-presentation)
-- [Resources](#Resources)
-- [Workshop modules](#Workshop-modules)
+- [About this repo](#about-this-repo)
+- [Prep env](#prep-env)
+- [Share presentation](#share-presentation)
+- [Resources](#resources)
+- [Workshop modules](#workshop-modules)
 
 ---
 

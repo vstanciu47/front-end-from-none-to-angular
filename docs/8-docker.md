@@ -2,11 +2,11 @@
 
 ## 8. Docker
 
-- [Prerequisites](#Prerequisites)
+- [Prerequisites](#prerequisites)
 
-- [Exercises](#Exercises)
+- [Exercises](#exercises)
 
-- [Next](#Next)
+- [Next](#next)
 
 ---
 

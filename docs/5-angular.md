@@ -2,15 +2,15 @@
 
 ## 5. Angular (1/3)
 
-- [Prerequisites](#Prerequisites)
+- [Prerequisites](#prerequisites)
 
-- [Components](#Components)
-- [Pipes](#Pipes)
-- [Directives](#Directives)
-- [Environments](#Environments)
-- [Exercises](#Exercises)
+- [Components](#components)
+- [Pipes](#pipes)
+- [Directives](#directives)
+- [Environments](#environments)
+- [Exercises](#exercises)
 
-- [Next](#Next)
+- [Next](#next)
 
 ---
 
