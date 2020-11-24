@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppsService, Launcher } from '../apps.service';
 
 @Component({
   selector: 'app-apps-page',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppsPageComponent implements OnInit {
 
-  constructor() { }
+  pageName = "Apps page";
+
+  launchers = new Array<Launcher>();
+
+  constructor(
+    private appsService: AppsService
+  ) { }
 
   ngOnInit(): void {
+    this.appsService.getApps().then(launchers => this.launchers = launchers);
   }
 
 }
