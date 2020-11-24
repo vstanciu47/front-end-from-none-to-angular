@@ -369,6 +369,14 @@ login() {
 const token = sessionStorage.getItem("token");
 ```
 
+- now retry the full flow in browser: go to apps, (auto) redirect to login, (auto) redirect back to apps
+
+- check out the network call to `apps`, notice the `Authorization` header
+
+- if you installed the JWT Chrome extension mentioned in [prerequisites](#prerequisites), switch to it to see the decoded token
+
+- if not, copy the value of the token (whatever follows after `Bearer` and paste it on [JWT.io](https://jwt.io/)) to see the decoded token
+
 ---
 
 ## Exercises
