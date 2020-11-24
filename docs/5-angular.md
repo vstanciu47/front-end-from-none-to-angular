@@ -1,6 +1,6 @@
 # [Front-end from none to Angular](../README.md)
 
-## 5. Angular (1/3)
+## 5. Angular (3/3)
 
 - [Prerequisites](#prerequisites)
 

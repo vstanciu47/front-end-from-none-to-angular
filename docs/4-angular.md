@@ -1,6 +1,6 @@
 # [Front-end from none to Angular](../README.md)
 
-## 4. Angular (1/3)
+## 4. Angular (2/3)
 
 - [Prerequisites](#prerequisites)
 
@@ -265,7 +265,6 @@ intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEven
 Did I say *change* the requests? Well, we can't really do that, the request object is readonly, but we can `clone` requests, update the clone then *replace* the original request object with our modified clone
 
 - inspect the network tab in browser and look for `/apps` request; you should see `Authorization: Bearer ...` in the request headers list
-- copy the value of the token (whatever follows after `Bearer` and paste it on [JWT.io](https://jwt.io/))
 
 ---
 
@@ -282,14 +281,7 @@ cd src/app
 ng generate component login
 ```
 
-and add some info in its template `src/app/login/login.component.html`
-
-```html
-<p>this is a fake login page to redirect to when app is not authorized</p>
-<a routerLink="/apps">click here to pretend to login and go to apps page</a>
-```
-
-and of course add the new route to `app-routing.module.ts`
+- add the new route to `app-routing.module.ts`
 
 ```ts
 { path: "login", component: LoginComponent },
@@ -325,15 +317,15 @@ export class AuthGuard implements CanActivate {
 }
 ```
 
-- and now let's protect the `apps` route in `src/app/auth.guard.ts`
+- protect the `apps` route in `src/app/auth.guard.ts` with this guard
 
 ```ts
 { path: "apps", component: AppsPageComponent, canActivate: [AuthGuard] },
 ```
 
-Now if you check the apps page, it displays the login component (always)
+- try to navigate to apps page => it displays the login component
 
-- add a "user" field and a "login" button on the login page
+- update `login.component.html` (add a "user" field and a "login" button on the login page)
 
 ```html
 <input type="text" [(ngModel)]="userName">
@@ -341,7 +333,9 @@ Now if you check the apps page, it displays the login component (always)
 ```
 
 - import the `FormsModule` as before in the containing module of login page.
-- declare `userName` string prop in `login.component.ts`
+
+- declare `userName` as (empty) string prop in `login.component.ts`
+
 - create a fake `login()` method in `login.component.ts`; also set the token to sessionStorage; at the end, should redirect back to the original URL, but since we didn't pass it to this page, we'll just hardcode redirect to `apps`
 
 ```ts

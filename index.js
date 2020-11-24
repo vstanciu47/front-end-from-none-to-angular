@@ -33,7 +33,6 @@ wss.on("connection", (ws, req) => {
 });
 
 // host
-console.log(process.argv)
 const port = !isNaN(+process.argv[2]) ? +process.argv[2] : 80;
 const urls = Object.values(os.networkInterfaces())
     .reduce((all, as) => (as.forEach(a => all.push(a.address.replace("::1", "localhost"))), all), [])
