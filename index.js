@@ -27,7 +27,7 @@ wss.on("connection", (ws, req) => {
     ws.send(lastMessage);
     ws.on("message", message => {
         lastMessage = message;
-        clients.forEach(client => client.readyState === ws.OPEN && client.send(message));
+        clients.forEach(client => client !== ws && client.readyState === ws.OPEN && client.send(message));
     });
     ws.on("close", () => clients.delete(ws));
 });
