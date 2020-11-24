@@ -1,9 +1,10 @@
 # [Front-end from none to Angular](README.md)
 
-- [About this repo](#About-this-repo)
-- [Prep env](#Prep-env)
-- [Share presentation](#Share-presentation)
-- [Workshop modules](#Workshop-modules)
+- [About this repo](#about-this-repo)
+- [Prep env](#prep-env)
+- [Presentation server](#presentation-server)
+- [Resources](#resources)
+- [Workshop modules](#workshop-modules)
 
 ---
 
@@ -28,11 +29,18 @@ The tutorials are easy to follow and yield immediate results, so have fun buildi
 
 ---
 
-## Share presentation
+## Presentation server
 
-- start share server `npx http-server .`
-- access this md [http://10.231.70.62:8080/README.md](http://10.231.70.62:8080/README.md)
-- access live shared content [http://10.231.70.62:8080/code-share.txt](http://10.231.70.62:8080/code-share.txt)
+- start presentation server `npm start`
+- share it with the audience `http://10.231.70.62:4280`
+
+---
+
+## Resources
+
+- [Student WebDevs Team](https://teams.microsoft.com/l/team/19%3a8d24e23215974915b710387043ac4682%40thread.tacv2/conversations?groupId=8e170955-63ec-432a-94a5-3c05051e1c0b&tenantId=6d2c7112-af95-4e9e-acd6-d2a990e40851)
+- [Curs FullStackWebDevelopment](https://web.microsoftstream.com/channel/8507447a-cb97-41bc-a53a-7583e3011946)
+- [NodeJs API for a .NET developer](https://code.waters.com/bitbucket/users/rovian/repos/nodejs-api-for-a-.net-developer)
 
 ---
 
@@ -40,16 +48,18 @@ The tutorials are easy to follow and yield immediate results, so have fun buildi
 
 ### [1. Javascript](docs/1-javascript.md)
 
-### 2. Typescript: modules 1-4 from [NodeJs API for a .NET developer](https://code.waters.com/bitbucket/users/rovian/repos/nodejs-api-for-a-.net-developer/browse)
+### [2. Typescript](docs/2-typescript.md)
 
-### 3. [Angular (1/2)](docs/3-angular.md)
+### [3. Angular (1/3)](docs/3-angular.md)
 
-### 4. Angular (2/2)
+### [4. Angular (2/3)](docs/4-angular.md)
 
-### 5. RxJS
+### [5. Angular (3/3)](docs/5-angular.md)
 
-### 6. NgRx
+### [6. RxJS](docs/6-rxjs.md)
 
-### 7. Docker
+### [7. NgRx](docs/7-ngrx.md)
 
-### 8. Testing
+### [8. Docker](docs/8-docker.md)
+
+### [9. Testing](docs/9-testing.md)

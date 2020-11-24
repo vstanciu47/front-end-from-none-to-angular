@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <title>Code share</title>
+    <style>
+        h3 {
+            user-select: none;
+        }
+
+        h3>a {
+            text-decoration: none;
+            padding: 2px 5px;
+            border: 1px solid #ffdbcd;
+            border-radius: 3px;
+            color: #ff8252;
+            font-size: .75rem;
+        }
+
+        code,
+        textarea {
+            font-family: monospace;
+            white-space: pre;
+        }
+
+        textarea {
+            border: none;
+            width: calc(100vw - 20px);
+            height: calc(100vh - 70px);
+        }
+
+        textarea:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>
+        <a target="_blank"
+            href="https://chrome.google.com/webstore/detail/markdown-preview-plus/febilkbfcbhebfnokafefeacimjdckgl">.md viewer</a>
+        <a target="_blank" href="README.md">README.md</a>
+    </h3>
+
+    <script>
+        const isLocal = /http:\/\/(localhost|127\.0\.0\.1)/i.test(location.href);
+        const ws = new WebSocket(location.href.replace(/^http:/i, "ws:"));
+        const elem = document.createElement(isLocal ? "textarea" : "code");
+        if (isLocal) {
+            elem.value = `ws://code.share`;
+            let opened = false;
+            ws.onopen = () => (opened = true, ws.send(elem.value));
+            elem.onchange = elem.onpaste = elem.onkeyup = () => opened && ws.send(elem.value);
+            ws.onclose = () => opened = false;
+        } else {
+            ws.onmessage = message => elem.textContent = message.data;
+        }
+        document.body.appendChild(elem);
+    </script>
+</body>
+
+</html>

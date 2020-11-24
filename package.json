@@ -1,0 +1,24 @@
+{
+  "name": "fe",
+  "version": "0.0.0",
+  "description": "front-end from none to angular",
+  "keywords": [
+    "front-end",
+    "angular"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@bitbucketprod1.waters.com:7999/~rovian/frontend-from-none-to-angular.git"
+  },
+  "author": "valentin.ianchis@waters.com",
+  "license": "ISC",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "node . 80"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^7.4.0"
+  }
+}

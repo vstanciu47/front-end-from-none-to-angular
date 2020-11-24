@@ -2,12 +2,15 @@
 
 ## 1. Javascript
 
-- [History](#History)
-- [Usage](#Usage)
-- [Modules](#Modules)
-- [Specifics](#Specifics)
-- [To do](#To-do)
-- [Resources](#Resources)
+- [History](#history)
+- [Usage](#usage)
+- [Modules](#modules)
+- [Specifics](#specifics)
+- [Exercises](#exercises)
+- [Resources](#resources)
+- [Notes](#notes)
+
+- [Next](#next)
 
 ---
 
@@ -228,7 +231,7 @@ eval(`console.log(thelet); let thelet = 42;`); //do not use eval
 
 ---
 
-## To do
+## Exercises
 
 - [Promises and Async Programming](https://app.pluralsight.com/library/courses/javascript-promises-async-programming/table-of-contents) - 1h 21m
 - [Objects, Prototypes, and Classes](https://app.pluralsight.com/library/courses/javascript-objects-prototypes-classes/table-of-contents) - 1h 48m
@@ -250,4 +253,14 @@ Advanced topics
 
 ---
 
-[Next: modules 1-4 from NodeJs API for a .NET developer](https://code.waters.com/bitbucket/users/rovian/repos/nodejs-api-for-a-.net-developer/browse) workshop
+## Notes
+
+- A more "in-depth" workshop to demo Node.js [here](https://code.waters.com/bitbucket/users/rovian/repos/nodejs-api-for-a-.net-developer/browse)
+- Binary float causes 0.1 + 0.2 != 0.3 (see [here](https://www.quora.com/Why-is-0-1+0-2-not-equal-to-0-3-in-most-programming-languages/answer/Chris-Jester-Young?srid=DH0&share=1)); most languages are just better at hiding it (see [here](https://0.30000000000000004.com/))
+- Node.js supports ES modules [since v10](https://nodejs.org/docs/latest-v10.x/api/esm.html#esm_ecmascript_modules), but in v15 they're still experimental
+
+---
+
+## Next
+
+[Typescript](2-typescript.md)
