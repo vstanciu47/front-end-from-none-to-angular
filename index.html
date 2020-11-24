@@ -16,18 +16,16 @@
             font-size: .75rem;
         }
 
-        code {
-            display: none;
+        code,
+        textarea {
             font-family: monospace;
             white-space: pre;
         }
 
         textarea {
-            display: none;
             border: none;
             width: calc(100vw - 20px);
             height: calc(100vh - 70px);
-            white-space: nowrap;
         }
 
         textarea:focus {
@@ -43,13 +41,11 @@
             viewer</a>
         <a target="_blank" href="README.md">README.md</a>
     </h3>
-    <code></code>
-    <textarea></textarea>
+
     <script>
         const isLocal = /http:\/\/(localhost|127\.0\.0\.1)/i.test(location.href);
-        const ws = new WebSocket(location.href.replace(/^http:/i, "ws:").replace(/:(\d+)/, d => ":" + (+(d.replace(":", "")) + 1)));
-        const elem = document.querySelector(isLocal ? "textarea" : "code");
-        elem.style.display = "block";
+        const ws = new WebSocket(location.href.replace(/^http:/i, "ws:"));
+        const elem = document.createElement(isLocal ? "textarea" : "code");
         if (isLocal) {
             elem.value = `ws://code.share`;
             let opened = false;
@@ -59,6 +55,7 @@
         } else {
             ws.onmessage = message => elem.textContent = message.data;
         }
+        document.body.appendChild(elem);
     </script>
 </body>
 

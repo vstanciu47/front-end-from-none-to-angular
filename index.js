@@ -1,23 +1,41 @@
+const fs = require("fs");
+const path = require("path");
 const http = require("http");
-const WebSocket = require("ws");
+const os = require("os");
+const ws = require("ws");
+const express = require("express");
 
-const server = http.createServer();
-const wss = new WebSocket.Server({ server })
-const clients = new Set();
+// index, md
+const app = express();
+const files = [];
+app.use((req, res) => {
+    req.url = req.url.split("?")[0];
+    const file = /^(\/|index\.html)$/.test(req.url) ? "index.html" : /\.md$/.test(req.url) ? req.url : "";
+    if (!file) return res.status(404).send();
+    if (!files[file]) files[file] = fs.readFileSync(path.join(__dirname, file)).toString();
+    return res.header({ "Content-Type": /\.md$/.test(file) ? "text/markdown; charset=UTF-8" : "text/html" }).send(files[file]);
+});
+const server = http.createServer(app);
 
+// ws
+const wss = new ws.Server({ server })
 let lastMessage = "";
-
+const clients = new Set();
 wss.on("connection", (ws, req) => {
-    console.log("connection", req.socket.remoteAddress);
-    ws.send(lastMessage);
-
+    console.log("\x1b[36m", "connection", req.socket.remoteAddress, "\x1b[0m");
     clients.add(ws);
+    ws.send(lastMessage);
     ws.on("message", message => {
         lastMessage = message;
-        clients.forEach(client => client.readyState === WebSocket.OPEN && client.send(message));
+        clients.forEach(client => client.readyState === ws.OPEN && client.send(message));
     });
     ws.on("close", () => clients.delete(ws));
 });
 
-const port = +process.env.PORT + 1;
-server.listen(port, console.log("ws server running on port", port));
+// host
+console.log(process.argv)
+const port = !isNaN(+process.argv[2]) ? +process.argv[2] : 80;
+const urls = Object.values(os.networkInterfaces())
+    .reduce((all, as) => (as.forEach(a => all.push(a.address.replace("::1", "localhost"))), all), [])
+    .map(u => `\n\thttp://${u}` + (port !== 80 ? `:${port}` : ""));
+server.listen(port, console.log("\x1b[33m", "presentation server running", "\x1b[32m", urls.join(""), "\x1b[0m"));
