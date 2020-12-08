@@ -20,4 +20,8 @@ export class AppsPageComponent implements OnInit {
     this.appsService.getApps().then(launchers => this.launchers = launchers);
   }
 
+  launched($event: Launcher) {
+    console.log("AppsPageComponent.launched", { $event });
+  }
+
 }

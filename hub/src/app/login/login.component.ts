@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     const payload = {
       iat: Math.floor(Date.now() / 1000),
       nbf: Math.floor(Date.now() / 1000),
-      exp: Math.floor(new Date(Date.now() + 5 * 1000).getTime() / 1000), // 5 seconds validity
+      exp: Math.floor(new Date(Date.now() + 60 * 60 * 1000).getTime() / 1000), // 1 hour validity
       sub: this.userName // the user id will be bound to this field in a real world scenario
     };
     const signature = "signature";

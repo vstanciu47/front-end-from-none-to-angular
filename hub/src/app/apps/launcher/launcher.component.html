@@ -1,0 +1,9 @@
+<div class="launcher"
+    [appWebOrDesktop]="obj"
+    (click)="launch()" 
+    [ngClass]="{ 'launched': launchCount > 0 }"
+>
+    <p>{{ obj?.name | nameit: obj?.type }}</p>
+    <p *ngIf="launchCount === 0">Never launched!</p>
+    <p [hidden]="launchCount === 0">Launch count: {{launchCount}}</p>
+</div>

@@ -6,9 +6,13 @@ import { AppsService } from './apps.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BearerHeaderInterceptor } from './bearer-header.interceptor';
 import { UnauthorisedInterceptor } from './401.interceptor';
+import { LauncherComponent } from './launcher/launcher.component';
+import { NameitPipe } from './nameit.pipe';
+import { WebOrDesktopDirective } from './web-or-desktop.directive';
+import { LauncherValidatorDirective } from './launcher-validator.directive';
 
 @NgModule({
-  declarations: [AppsPageComponent],
+  declarations: [AppsPageComponent, LauncherComponent, NameitPipe, WebOrDesktopDirective, LauncherValidatorDirective],
   imports: [
     CommonModule,
     FormsModule,

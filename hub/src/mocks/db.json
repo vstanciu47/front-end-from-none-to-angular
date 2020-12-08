@@ -2,11 +2,13 @@
     "apps": [
         {
             "id": 1,
-            "name": "app 1"
+            "name": "app 1",
+            "type": "web"
         },
         {
             "id": 2,
-            "name": "app 2"
+            "name": "app 2",
+            "type": "desktop"
         },
         {
             "id": 3,
@@ -14,23 +16,28 @@
         },
         {
             "id": 4,
-            "name": "app 4"
+            "name": "app 4",
+            "type": "desktop"
         },
         {
             "id": 5,
-            "name": "app 5"
+            "name": "app 5",
+            "type": "desktop"
         },
         {
             "id": 6,
-            "name": "app 6"
+            "name": "app 6",
+            "type": "web"
         },
         {
             "id": 7,
-            "name": "app 7"
+            "name": "app 7",
+            "type": "web"
         },
         {
             "id": 8,
-            "name": "app 8"
+            "name": "app 8",
+            "type": "web"
         },
         {
             "id": 9,

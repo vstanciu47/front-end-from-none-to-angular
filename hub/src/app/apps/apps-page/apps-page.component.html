@@ -1,5 +1,8 @@
 <h1>{{pageName}}</h1>
 
-<ul>
-    <li *ngFor="let app of launchers">{{app.name}}</li>
-</ul>
+<app-launcher 
+    *ngFor="let launcher of launchers" 
+    [launcherValidator]="launcher"
+    [obj]="launcher" 
+    (clicked)="launched($event)">
+</app-launcher>
