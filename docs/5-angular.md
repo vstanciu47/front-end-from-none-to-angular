@@ -17,7 +17,6 @@
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/en/) - prefer LTS
-- [JWT inspector Chrome extension](https://bugjam.github.io/jwt-inspector/)
 - [Angular Language Service VS Code extension](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template)
 
 ---
@@ -41,37 +40,63 @@ ng generate component launcher
 
 ```ts
 @Input()
-obj: Launcher
+obj: Launcher // fix ts error
 
 @Output()
-clicked = new EventEmitter<number>();
+clicked = new EventEmitter<Launcher>();
 
-noOfClicks = 0;
+launchCount = 0;
 
-click() {
-    this.noOfClicks++;
-    console.log(this.obj.id, this.noOfClicks);
-    this.clicked.emit(this.noOfClicks);
+launch() {
+  this.launchCount++;
+  console.log("LauncherComponent.launch", { obj: this.obj, launchCount: this.launchCount });
+  this.clicked.emit(this.obj);
 }
 ```
 
-- replace it's template with `<p (click)="click()">{{obj.name}}</p>`
+- replace it's template (and fix error)
 
-- replace the repeater from `apps-page.component.html` and use the new component instead
+```html
+<div class="launcher" (click)="launch()" [ngClass]="{ 'launched': launchCount > 0 }">
+  <p>{{obj?.name}}</p>
+  <p *ngIf="launchCount === 0">Never launched!</p>
+  <p [hidden]="launchCount === 0">Launch count: {{launchCount}}</p>
+</div>
+```
+
+- add some styling to it
+
+```css
+.launcher {
+  float: left;
+  width: 7rem;
+  height: 7rem;
+  background-color: #50a6ff3d;
+  margin: .5rem;
+  padding: .5rem;
+  cursor: pointer;
+}
+
+.launched {
+  background-color: #ff89503d;
+}
+```
+
+- add a listner in `apps-page.component.ts` for events emitted from the laucher component
+
+```ts
+launched($event: Launcher) {
+  console.log("AppsPageComponent.launched", { $event });
+}
+```
+
+- replace the repeater from `apps-page.component.html` and use the new launcher component instead
 
 ```html
 <app-launcher *ngFor="let launcher of launchers"
               [obj]="launcher"
-              (clicked)="clickedHappenned($event)">
+              (clicked)="launched($event)">
 </app-launcher>
-```
-
-- in `apps-page.component.ts` add a listner for events emitted from the laucher component
-
-```ts
-clickedHappenned($event: number) {
-    console.log("parent: ", $event);
-}
 ```
 
 ---
@@ -91,16 +116,18 @@ ng generate pipe nameit
 - update `launcher.component.html`
 
 ```html
-<p (click)="click()">{{obj.name | nameit}}</p>
+<p>{{obj.name | nameit}}</p>
 ```
 
 - update `nameit.pipe.ts` to make it return the input value unchanged
 
 ```ts
 transform(value: string): string {
-    return value;
+    return value + " piped"; // this is just a POC; update it in exercise 1
 }
 ```
+
+- complete [exersice 1](#exercise-1-pipes)
 
 ---
 
@@ -110,6 +137,7 @@ An Attribute directive changes the appearance or behavior of a DOM element.
 There are 2 types of directives: attribute and structural.  
 We've already used built-in structural directive (`*ngFor`); these modify the DOM.
 Attribute directives change the appearance of elements.
+Must read the [official documentation](https://angular.io/guide/built-in-directives) and complete [exersice 2](#exercise-2-directives)
 
 ---
 
@@ -125,12 +153,17 @@ This is because the specific env file overwrites the `environment.ts` file wehn 
 
 ### Exercise 1: pipes
 
-- update the logic to return the app names prefixed with "web" or "desktop" (chosen randomely); add more fake data to `db.json` to make it more relevant
+- update `Launcher` interface, add a new prop `type: "web", "desktop"`
+- update `db.json`, insert the type to all apps `"type": "web"` or `"type": "desktop"`
+- update `nameit` to prefix the value with "web" or "desktop"; add more fake data to `db.json` to make it more relevant
+- change a random value in `db.json` to `"type": "whatever"`, and even omit it from another; is your pipe able to handle these cases?
 
 ### Exercise 2: directives
 
-- create an attribute directive that displays the "web" and "desktop" apps differently; use delayed execution (with `setTimeout`) to allow the elem to be init
-- create a structural directive that does almost the same thing as the `nameit` pipe, but add a suffix also (random); use delayed execution (with `setTimeout`) to allow the elem to be init
+- create an attribute directive that displays the "web" and "desktop" apps differently (could change element's `color` based on type)
+- create a structural directive to hide the apps that are invalid
+  - update `Launcher` interface, add a new optional prop `valid?: boolean`
+  - update `db.json`, add the new prop to at least one app `"valid": false`
 
 ### Exercise 3: environments
 
