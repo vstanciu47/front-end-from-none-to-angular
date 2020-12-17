@@ -108,7 +108,14 @@ subscription.unsubscribe(); // clicking the button does nothing now
 ## Assignment
 
 - Functional programming in JavaScript: http://reactivex.io/learnrx/
+- Counter feature refactor using Observables
 - Hub app enhancement: add a launcher type filter without imperative code
+
+--Hints:
+- A dedicated endpoint for launcher types needs to be created for feeding the types dropdown
+- Avoid redundancy by normalizing the launcher/type relationship; add a type_id (FK) on the launcher interface to achieve this
+- Use an appropriate operator to merge launcher data with type data and correctly fill the launcher.type information
+- Avoid calling the types' endpoint more than once by using an operator that enables caching of previous emmited values
 
 Reference: DeborahK's RxJS course - https://github.com/DeborahK/Angular-RxJS & https://app.pluralsight.com/library/courses/rxjs-angular-reactive-development/table-of-contents
 
