@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Observable } from 'rxjs';
+import { scan } from 'rxjs/operators';
 import { Launcher } from '../apps.service';
-import { WebOrDesktopDirective } from '../web-or-desktop.directive';
 
 @Component({
   selector: 'app-launcher',
@@ -20,11 +21,11 @@ export class LauncherComponent implements OnInit {
   @Output()
   clicked = new EventEmitter<Launcher>();
 
-  launchCount = 0;
+  launchCount$ : Observable<number> = this.clicked.pipe(
+    scan((acc) => acc + 1, 0)
+  )
 
   launch() {
-    this.launchCount++;
-    console.log("LauncherComponent.launch", { obj: this.obj, launchCount: this.launchCount });
     this.clicked.emit(this.obj);
   }
 
