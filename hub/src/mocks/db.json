@@ -1,47 +1,61 @@
 {
-    "apps": [
-        {
-            "id": 1,
-            "name": "app 1",
-            "type": "web"
-        },
-        {
-            "id": 2,
-            "name": "app 2",
-            "type": "desktop"
-        },
-        {
-            "id": 3,
-            "name": "app 3"
-        },
-        {
-            "id": 4,
-            "name": "app 4",
-            "type": "desktop"
-        },
-        {
-            "id": 5,
-            "name": "app 5",
-            "type": "desktop"
-        },
-        {
-            "id": 6,
-            "name": "app 6",
-            "type": "web"
-        },
-        {
-            "id": 7,
-            "name": "app 7",
-            "type": "web"
-        },
-        {
-            "id": 8,
-            "name": "app 8",
-            "type": "web"
-        },
-        {
-            "id": 9,
-            "name": "app 9"
-        }
-    ]
+  "apps": [
+    {
+      "id": 1,
+      "name": "app 1",
+      "typeId": 1
+    },
+    {
+      "id": 2,
+      "name": "app 2",
+      "typeId": 2
+    },
+    {
+      "id": 3,
+      "name": "app 3"
+    },
+    {
+      "id": 4,
+      "name": "app 4",
+      "typeId": 2
+    },
+    {
+      "id": 5,
+      "name": "app 5",
+      "typeId": 2
+    },
+    {
+      "id": 6,
+      "name": "app 6",
+      "typeId": 1
+    },
+    {
+      "id": 7,
+      "name": "app 7",
+      "typeId": 1
+    },
+    {
+      "id": 8,
+      "name": "app 8",
+      "typeId": 1
+    },
+    {
+      "id": 9,
+      "name": "app 9"
+    }
+  ],
+  "types": [
+    {
+      "id": 1,
+      "name": "web"
+    },
+    {
+      "id": 2,
+      "name": "desktop"
+    },
+    {
+      "id": 3,
+      "name": "mobile"
+    }
+  ]
 }
