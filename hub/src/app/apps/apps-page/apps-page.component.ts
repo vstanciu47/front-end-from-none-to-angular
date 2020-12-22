@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, combineLatest, EMPTY, of, Subject } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { AppsService, Launcher } from '../apps.service';
+import { Launcher } from '../apps.service';
+import { select, Store } from '@ngrx/store';
+import * as fromApps from './../state';
+import * as appsActions from './../state/apps.actions';
 
 @Component({
   selector: 'app-apps-page',
@@ -11,36 +12,23 @@ import { AppsService, Launcher } from '../apps.service';
 export class AppsPageComponent implements OnInit {
   pageName = 'Apps page';
 
-  error$ = new Subject<string>();
+  appTypes$ = this.store.pipe(
+    select(fromApps.getTypes)
+  )
 
-  appTypes$ = this.appsService.appTypes$;
+  filteredLaunchers$ = this.store.pipe(
+    select(fromApps.getFilteredApps)
+  )
 
-  launcherTypeSelected$ = new BehaviorSubject<number>(0);
+  error$ = this.store.pipe(
+    select(fromApps.getError)
+  )
 
-  // launchers = new Array<Launcher>();
-  launchers$ = this.appsService.launchersWithTypes$.pipe(
-    catchError((error) => {
-      this.error$.next(error);
-      return EMPTY;
-    })
-  );
-
-  filteredLaunchers$ = combineLatest([
-    this.launchers$,
-    this.launcherTypeSelected$,
-  ]).pipe(
-    map(
-      ([launchers, appType]) =>
-        launchers.filter((launcher) =>
-          appType !== 0 ? launcher.typeId === appType : true
-        )
-    )
-  );
-
-  constructor(private appsService: AppsService) {}
+  constructor(private store: Store<fromApps.State>) {}
 
   ngOnInit(): void {
-    // this.appsService.getApps().then(launchers => this.launchers = launchers);
+    this.store.dispatch(new appsActions.LoadApps());
+    this.store.dispatch(new appsActions.LoadTypes());
   }
 
   launched($event: Launcher) {
@@ -49,6 +37,6 @@ export class AppsPageComponent implements OnInit {
 
   typeSelected(target: any) {
     let appType = <HTMLTextAreaElement>target;
-    this.launcherTypeSelected$.next(+appType.value);
+    this.store.dispatch(new appsActions.SelectType(+appType.value));
   }
 }
