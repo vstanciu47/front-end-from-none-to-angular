@@ -4,7 +4,15 @@
 
 - [Prerequisites](#prerequisites)
 
-- [Exercises](#exercises)
+- [Prototype](#prototype)
+
+- [Dockerfile](#dockerfile)
+
+- [Docker compose](#docker-compose)
+
+- [References](#references)
+
+- [Exercise](#exercise)
 
 - [Next](#next)
 
@@ -12,7 +20,9 @@
 
 ## Prerequisites
 
-[Docker desktop](https://www.docker.com/products/docker-desktop) (verify installation with `docker version`)
+- [Docker desktop](https://www.docker.com/products/docker-desktop) (verify installation with `docker version`)
+- VS Code extension [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
+- VS Code extension [Remote Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
 ---
 
