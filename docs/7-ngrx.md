@@ -124,7 +124,7 @@ export class LoadAppsFail implements Action {
 
 export class LoadTypes implements Action {
     readonly type = AppsActionTypes.LOAD_TYPES;
-  }
+}
   
 export class LoadTypesSucess implements Action {
   readonly type = AppsActionTypes.LOAD_TYPES_SUCCESS;
@@ -139,7 +139,7 @@ export class LoadTypesFail implements Action {
 export class SelectType implements Action {
     readonly type = AppsActionTypes.SELECT_TYPE;
     constructor(public payload: number) {}
-  }
+}
 
 // Union the valid types
 export type AppsActions =
@@ -150,9 +150,7 @@ export type AppsActions =
   | LoadTypesSucess
   | LoadTypesFail
   | SelectType;
-
 ```
----
 
 ## Reducer
 
@@ -344,7 +342,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 })
 ```
 
-- Install the Chrome extension: https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
+- Install [redux-devtools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd) Chrome extension
 
 ---
 
@@ -373,14 +371,14 @@ import * as appsActions from './../state/apps.actions';
 ```
 
 - For now, comment out any errors that result from the service removal, both in the code and the template and run the application
-- Notice the Actions being dispatched in the Chrome dev tools "Redux" tab 
+
+- Notice the Actions being dispatched in the Chrome dev tools "Redux" tab
 
 ## Selecting data
 
 - Create the needed state selectors in the features's `index.ts` file
 
 ```ts
-
 export const getLaunchers = createSelector(
   getAppsFeatureState,
   (state) => state.apps
