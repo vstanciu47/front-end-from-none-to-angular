@@ -4,7 +4,7 @@ import { Launcher } from './apps.service';
 @Pipe({ name: 'nameit' })
 export class NameitPipe implements PipeTransform {
 
-  transform(value?: string, type?: Launcher["type"]): string {
+  transform(value?: string, type?: Launcher["typeName"]): string {
     return `[${type || "unknown"}] ${value}`;
   }
 

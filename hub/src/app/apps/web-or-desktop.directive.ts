@@ -19,12 +19,12 @@ export class WebOrDesktopDirective implements OnInit {
   }
 
   private init() {
-    this.el.nativeElement.style.color = ((type?: Launcher["type"]) => {
+    this.el.nativeElement.style.color = ((type?: Launcher["typeId"]) => {
       switch (type) {
-        case "web": return "green";
-        case "desktop": return "red";
+        case 1: return "green";
+        case 2: return "red";
         default: return "gray";
       }
-    })(this.appWebOrDesktop?.type);
+    })(this.appWebOrDesktop?.typeId);
   }
 }
