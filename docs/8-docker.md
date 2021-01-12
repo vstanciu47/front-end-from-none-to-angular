@@ -242,6 +242,23 @@ server {
 
 - notice how `http://localhost:3000` can no longer be accessed directly, because in our "production" version of the app, the server isn't meant for public usage
 
+- move `mocks` folder beside `src` folder (and replace the path in package.json)
+
+- now changes to db won't trigger client rebuild, because this isn't part of client source files
+
+- replace `COPY ./src/mocks/ ./src/mocks/` with `VOLUME [ "/hub/mocks/db.json" ]` in `dockerfile.server`
+
+- add a new section in `docker-compose.yml` / `services/server`
+
+```yaml
+        volumes:
+            - ./mocks/db.json:/hub/mocks/db.json
+```
+
+- test it again `docker-compose up --build` => success
+
+- now changes done to our db through CRUD endpoints of json-server will survive docker start/stop/rm, since the image does not embed the db file
+
 ---
 
 ## References

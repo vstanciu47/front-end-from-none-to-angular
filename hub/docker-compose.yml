@@ -20,4 +20,6 @@ services:
             context: .
             dockerfile: ./dockerfile.server
             target: server
+        volumes:
+            - ./mocks/db.json:/hub/mocks/db.json
         restart: always
