@@ -45,7 +45,7 @@ Build, test and run in docker
 ### Step 3 - run app inside a `node:14.15.4` container
 
 - `docker pull node:14.15.4`
-- `docker run --rm -it -v %CD%:/hub -w /hub -p 4200:80 node bash`
+- `docker run --rm -it -v %CD%:/hub -w /hub -p 4200:80 node:14.15.4 bash`
 - `npm i` => `npm i -g npm@latest`
 - `ng build` => `npm i -g @angular/cli` => `npm update`
 - `ng serve --host 0.0.0.0 --port 80`
@@ -53,7 +53,7 @@ Build, test and run in docker
 ### Step 4 - run backend separately in a new `node:14.15.4` container
 
 - `cd hub`
-- `docker run --rm -it -v %CD%:/hub -w /hub -p 3000:80 node bash`
+- `docker run --rm -it -v %CD%:/hub -w /hub -p 3000:80 node:14.15.4 bash`
 - `npm run json-server` => `npm i -g json-server`
 - `json-server --watch src/mocks/db.json --host 0.0.0.0 --port 80`
 
@@ -100,7 +100,7 @@ CMD ng serve --host 0.0.0.0 --port 80
 
 - build and tag the image: `docker build --target client -t hub_client .`
 - verify it exists `docker image ls`
-- run the image `docker run --rm -it -p 4200:80 hub_client`
+- run the image `docker run --rm -p 4200:80 hub_client`
 
 ### Image for the server
 
