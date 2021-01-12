@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+
+    client:
+        container_name: 'client'
+        build:
+            context: .
+            dockerfile: ./dockerfile
+            target: client
+        depends_on:
+            - server
+        ports:
+            - 4200:80
+        restart: always
+
+    server:
+        container_name: 'server'
+        build:
+            context: .
+            dockerfile: ./dockerfile
+            target: server
+        ports:
+            - 3000:80
+        restart: always
