@@ -240,6 +240,8 @@ server {
 
 - test it again `docker-compose up --build` => success
 
+- notice how `http://localhost:3000` can no longer be accessed directly, because in our "production" version of the app, the server isn't meant for public usage
+
 ---
 
 ## References
