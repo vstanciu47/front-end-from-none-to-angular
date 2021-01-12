@@ -33,6 +33,7 @@ export class AppsPageComponent implements OnInit {
 
   launched($event: Launcher) {
     console.log('AppsPageComponent.launched', { $event });
+    this.store.dispatch(new appsActions.LauncherClicked($event.id));
   }
 
   typeSelected(target: any) {

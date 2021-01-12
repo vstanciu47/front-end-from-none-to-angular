@@ -3,13 +3,14 @@ import { Action } from '@ngrx/store';
 import { AppType, Launcher } from '../apps.service';
 
 export enum AppsActionTypes {
-    LOAD_APPS = '[APPS] Load apps',
-    LOAD_APPS_SUCCESS = '[APPS] Loaded apps successfully',
-    LOAD_APPS_FAILURE = '[APPS] Failed to load apps',
-    LOAD_TYPES = '[APPS] Load app types',
-    LOAD_TYPES_SUCCESS = '[APPS] Load app types successfully',
-    LOAD_TYPES_FAILURE = '[APPS] Failed to load app types',
-    SELECT_TYPE = '[APPS] Selected a specific app type'
+  LOAD_APPS = '[APPS] Load apps',
+  LOAD_APPS_SUCCESS = '[APPS] Loaded apps successfully',
+  LOAD_APPS_FAILURE = '[APPS] Failed to load apps',
+  LOAD_TYPES = '[APPS] Load app types',
+  LOAD_TYPES_SUCCESS = '[APPS] Load app types successfully',
+  LOAD_TYPES_FAILURE = '[APPS] Failed to load app types',
+  SELECT_TYPE = '[APPS] Selected a specific app type',
+  LAUNCHER_CLICKED = '[APPS] An app launcher was clicked on',
 }
 
 // Action Creators
@@ -28,23 +29,28 @@ export class LoadAppsFail implements Action {
 }
 
 export class LoadTypes implements Action {
-    readonly type = AppsActionTypes.LOAD_TYPES;
-  }
-  
-  export class LoadTypesSucess implements Action {
-    readonly type = AppsActionTypes.LOAD_TYPES_SUCCESS;
-    constructor(public payload: AppType[]) {}
-  }
-  
-  export class LoadTypesFail implements Action {
-    readonly type = AppsActionTypes.LOAD_TYPES_FAILURE;
-    constructor(public payload: string) {}
-  }
+  readonly type = AppsActionTypes.LOAD_TYPES;
+}
+
+export class LoadTypesSucess implements Action {
+  readonly type = AppsActionTypes.LOAD_TYPES_SUCCESS;
+  constructor(public payload: AppType[]) {}
+}
+
+export class LoadTypesFail implements Action {
+  readonly type = AppsActionTypes.LOAD_TYPES_FAILURE;
+  constructor(public payload: string) {}
+}
 
 export class SelectType implements Action {
-    readonly type = AppsActionTypes.SELECT_TYPE;
-    constructor(public payload: number) {}
-  }
+  readonly type = AppsActionTypes.SELECT_TYPE;
+  constructor(public payload: number) {}
+}
+
+export class LauncherClicked implements Action {
+  readonly type = AppsActionTypes.LAUNCHER_CLICKED;
+  constructor(public launcherId: number) {}
+}
 
 // Union the valid types
 export type AppsActions =
@@ -54,4 +60,5 @@ export type AppsActions =
   | LoadTypes
   | LoadTypesSucess
   | LoadTypesFail
-  | SelectType;
+  | SelectType
+  | LauncherClicked;

@@ -5,7 +5,7 @@ const initialState: AppsState = {
   apps: [],
   types: [],
   selectedTypeId: 0,
-  error: ''
+  error: '',
 };
 
 export function reducer(state = initialState, action: AppsActions): AppsState {
@@ -30,10 +30,20 @@ export function reducer(state = initialState, action: AppsActions): AppsState {
       };
 
     case AppsActionTypes.SELECT_TYPE:
-    return {
+      return {
         ...state,
         selectedTypeId: action.payload,
-    };
+      };
+
+    case AppsActionTypes.LAUNCHER_CLICKED:
+      return {
+        ...state,
+        apps: state.apps.map((launcher) =>
+          launcher.id === action.launcherId
+            ? { ...launcher, count: launcher.count ? launcher.count + 1 : 1 }
+            : launcher
+        ),
+      };
 
     default:
       return state;

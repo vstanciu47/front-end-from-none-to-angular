@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, shareReplay, tap } from 'rxjs/operators';
-import { combineLatest, throwError } from 'rxjs';
+import { catchError, shareReplay, tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 export interface Launcher {
   id: number;
   name: string;
-  // type: "web" | "desktop";
   typeId: number;
   typeName?: string;
   valid?: boolean;
+  count?: number
 }
 
 export interface AppType {
@@ -21,11 +21,6 @@ export interface AppType {
 export class AppsService {
   constructor(private http: HttpClient) {}
 
-  // getApps(): Promise<Launcher[]> {
-  //   return this.http.get<Launcher[]>("/apps").toPromise()
-  //     .then(apps => apps.map(a => (a.valid = ["web", "desktop"].includes(a.type), a)));
-  // }
-
   launchers$ = this.http.get<Launcher[]>('/apps').pipe(
     tap(() => console.log('[Service] Successfully fetched apps')),
     catchError((err: Error) => {
@@ -34,20 +29,11 @@ export class AppsService {
     })
   );
 
-  appTypes$ = this.http.get<AppType[]>('/types').pipe(shareReplay(1));
-
-  // launchersWithTypes$ = combineLatest([this.launchers$, this.appTypes$]).pipe(
-  //   map(([launchers, appTypes]) => {
-  //     return launchers.map((launcher) => ({
-  //         ...launcher,
-  //         typeName: appTypes.find((type) => type.id === launcher.typeId)?.name,
-  //         valid: appTypes.map(type => type.id).includes(launcher.typeId)
-  //       }
-  //     ))
-  //   }),
-  //   catchError((err: Error) => {
-  //     console.log('[Service] I have failed you:', err.message);
-  //     return throwError('This is a user friendly error message');
-  //   })
-  // )
+  appTypes$ = this.http.get<AppType[]>('/types').pipe(
+    tap(() => console.log('[Service] Successfully fetched app types')),
+    catchError((err: Error) => {
+      console.log('[Service] I have failed you:', err.message);
+      return throwError('This is another user friendly error message');
+    }),
+    shareReplay(1));
 }
