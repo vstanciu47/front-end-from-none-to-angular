@@ -1,0 +1,8 @@
+FROM node:14.15.4 AS server
+RUN npm i -g json-server
+WORKDIR /hub
+
+COPY ./src/mocks/ ./src/mocks/
+
+EXPOSE 3000
+CMD json-server src/mocks/db.json --host 0.0.0.0 --port 3000

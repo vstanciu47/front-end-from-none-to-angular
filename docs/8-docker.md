@@ -10,6 +10,8 @@
 
 - [Docker compose](#docker-compose)
 
+- [Production](#production)
+
 - [References](#references)
 
 - [Exercise](#exercise)
@@ -66,6 +68,7 @@ dist
 node_modules
 .editorconfig
 .gitignore
+dockerfile
 ```
 
 - create file `dockerfile`
@@ -156,9 +159,86 @@ services:
 
 - double check indentation !!! in yaml, one space off will cause the compiler to not interpret it correctly !!!
 
+- add `docker-compose.yml` to `.dockerignore`
+
 - (build and) start services `docker-compose up --build --remove-orphans`
 
 - stop `docker-compose down`
+
+---
+
+## Production
+
+- split `dockerfile` into two files `dockerfile.client` and `dockerfile.server` and keep only the relevant instructions in each
+
+- update `.dockerignore`, add the new files
+
+- update `services/[service]/build/dockerfile` for each in `docker-compose.yml`
+
+### Client: split client into two stages: `build` and `run`
+
+- change `AS client` to `AS build`
+
+- remove `EXPOSE` and `CMD`
+
+- update `angular.json` / `projects/hub/architect/build/options/outputPath` to just `dist`
+
+- add a closer to production runtime image `nginx`
+
+```dockerfile
+FROM nginx AS run
+COPY --from=build /hub/dist/* /usr/share/nginx/html/
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+```
+
+- create the configuration for the server as `nginx.conf`
+
+```conf
+server { 
+    listen 80;
+    server_name frontend;
+
+    location / {
+        root /usr/share/nginx/html;
+        try_files $uri /index.html;
+    }
+
+    location /apps {
+        proxy_pass http://server:3000/apps;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_ssl_session_reuse off;
+        proxy_set_header Host $http_host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_redirect off;
+    }
+
+    location /types {
+        proxy_pass http://server:3000/types;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_ssl_session_reuse off;
+        proxy_set_header Host $http_host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_redirect off;
+    }
+}
+```
+
+- change `docker-compose.yml` / `services/client/build/target` to `run`
+
+- test it `docker-compose up --build` => partial success
+
+### Server
+
+- change the server internal port from 80 to 3000 in `dockerfile.server` (two places)
+
+- remove the server port binding in `docker-compose.yml` / `services/server/ports` (and subsection)
+
+- test it again `docker-compose up --build` => success
 
 ---
 

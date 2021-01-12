@@ -1,4 +1,4 @@
-FROM node:14.15.4 AS client
+FROM node:14.15.4 AS build
 RUN npm i -g @angular/cli@8
 WORKDIR /hub
 
@@ -14,16 +14,9 @@ COPY ./e2e/ ./e2e/
 # RUN npm run test
 # RUN npm run e2e
 
+###########################################################################
+
+FROM nginx AS run
+COPY --from=build /hub/dist/* /usr/share/nginx/html/
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
-CMD ng serve --host 0.0.0.0 --port 80
-
-#################################################
-
-FROM node:14.15.4 AS server
-RUN npm i -g json-server
-WORKDIR /hub
-
-COPY ./src/mocks/ ./src/mocks/
-
-EXPOSE 80
-CMD json-server src/mocks/db.json --host 0.0.0.0 --port 80
