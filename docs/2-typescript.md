@@ -11,7 +11,7 @@ Modules 1-4 from [NodeJs API for a .NET developer](https://code.waters.com/bitbu
 
 ---
 
-## Exercises
+## Exercise
 
 - Complete the exercise from module 4 (transform the javascript to typescript)
 - [TypeScript: Getting Started](https://app.pluralsight.com/library/courses/getting-started-typescript) - 3h 1m

@@ -2,7 +2,11 @@
 
 ## 6. RxJs
 
-- [Assignment](#assignment)
+- [Key concepts](#key-concepts)
+- [The RxJS library](#the-rxjs-library)
+- [Basic example 1](#basic-example-1)
+- [Basic example 2](#basic-example-2)
+- [Exercise](#exercise)
 
 - [Next](#next)
 
@@ -109,7 +113,7 @@ subscription.unsubscribe(); // clicking the button does nothing now
 
 ---
 
-## Assignment
+## Exercise
 
 - Functional programming in JavaScript: [http://reactivex.io/learnrx/](http://reactivex.io/learnrx/)
 - Counter feature refactor using Observables

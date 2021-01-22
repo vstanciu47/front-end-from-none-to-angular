@@ -8,7 +8,7 @@
 - [Proxies](#proxies)
 - [Interceptors](#interceptors)
 - [Guards](#guards)
-- [Exercises](#exercises)
+- [Exercise](#exercise)
 
 - [Next](#next)
 
@@ -379,7 +379,7 @@ const token = sessionStorage.getItem("token");
 
 ---
 
-## Exercises
+## Exercise
 
 ### Exercise 1: validate token in auth guard
 

@@ -8,7 +8,7 @@
 - [Pipes](#pipes)
 - [Directives](#directives)
 - [Environments](#environments)
-- [Exercises](#exercises)
+- [Exercise](#exercise)
 
 - [Next](#next)
 
@@ -149,7 +149,7 @@ We could of course have some logic to create some statically available resources
 Throughout the app, only ever import `environment.ts`, never the "prod" or "staging" or whatever envs the app has defined  
 This is because the specific env file overwrites the `environment.ts` file wehn the app is built for that specific env  
 
-## Exercises
+## Exercise
 
 ### Exercise 1: pipes
 

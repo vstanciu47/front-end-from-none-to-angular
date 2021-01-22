@@ -7,7 +7,7 @@
 - [Angular CLI](#angular-cli)
 - [Routing, feature modules, routing modules](#routing-feature-modules-routing-modules)
 - [Binding](#binding)
-- [Exercises](#exercises)
+- [Exercise](#exercise)
 
 - [Next](#next)
 
@@ -156,7 +156,7 @@ Did you notice the weird syntax `[(ngModel)]`? It's both a "value in" `[]` as we
 
 ---
 
-## Exercises
+## Exercise
 
 - [Angular: The Big Picture](https://app.pluralsight.com/library/courses/ng-big-picture) - 1h 7m
 - [Angular Routing](https://app.pluralsight.com/library/courses/angular-routing) - 4h 49m

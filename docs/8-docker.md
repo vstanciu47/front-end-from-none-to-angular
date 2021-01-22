@@ -5,15 +5,10 @@
 - [Prerequisites](#prerequisites)
 
 - [Prototype](#prototype)
-
 - [Dockerfile](#dockerfile)
-
 - [Docker compose](#docker-compose)
-
 - [Production](#production)
-
 - [References](#references)
-
 - [Exercise](#exercise)
 
 - [Next](#next)

@@ -6,7 +6,7 @@
 - [Usage](#usage)
 - [Modules](#modules)
 - [Specifics](#specifics)
-- [Exercises](#exercises)
+- [Exercise](#exercise)
 - [Resources](#resources)
 - [Notes](#notes)
 
@@ -231,7 +231,7 @@ eval(`console.log(thelet); let thelet = 42;`); //do not use eval
 
 ---
 
-## Exercises
+## Exercise
 
 - [Promises and Async Programming](https://app.pluralsight.com/library/courses/javascript-promises-async-programming/table-of-contents) - 1h 21m
 - [Objects, Prototypes, and Classes](https://app.pluralsight.com/library/courses/javascript-objects-prototypes-classes/table-of-contents) - 1h 48m

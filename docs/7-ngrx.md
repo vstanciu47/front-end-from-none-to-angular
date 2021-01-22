@@ -3,21 +3,13 @@
 ## 7. NgRx
 
 - [Installation](#installation)
-
 - [State](#state)
-
 - [Actions](#actions)
-
 - [Reducer](#reducer)
-
 - [Effects](#effects)
-
 - [Dev Tools (Optional)](#dev-tools-optional)
-
 - [Dispatching actions](#dispatching-actions)
-
 - [Selecting data](#selecting-data)
-
 - [Exercise](#exercise)
 
 - [Next](#next)
