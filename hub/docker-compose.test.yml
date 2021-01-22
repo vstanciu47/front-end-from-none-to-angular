@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  test:
+    container_name: "test"
+    build:
+      context: .
+      dockerfile: ./test/dockerfile
+    depends_on:
+      - client
+      - server
+    network_mode: host
