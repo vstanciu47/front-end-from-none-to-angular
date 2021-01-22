@@ -126,14 +126,14 @@ Did you notice that `networks` is an array? Well, every service can have as many
 ##### Docker 'host' network
 
 The 'host' network driver puts the consuming service on the same network as the host.  
-So far, if we want to access the `client` network (in browser) we can do so using `http://localhost:4200`; this is possible because the `client` service publishes port 4200, meaning it makes it forwards the container port to the host's port 4200.  
+So far, if we want to access the `client` network (in browser) we can do so using `http://localhost:4200`; this is possible because the `client` service publishes port 4200, meaning it forwards the container's port to the host's port 4200.  
 Let's start a new container and try to access this URL from it: `docker run --rm node:14.15.4 curl http://localhost:4200` => FAIL; that's because in the container, `localhost` is the container's localhost, not the host's.  
-If we want to get reach the host's `localhost`, we have to put the container on the host's network; we do this by using `--net host`.  
+If we want to reach the host's `localhost`, we have to put the container on the host's network; we do this by using `--net host`.  
 Let's try it again: `docker run --rm --net host node:14.15.4 curl http://localhost:4200` => SUCCESS.  
 
 #### Docker prototype
 
-Let's ensure the test container can access the host's network just like a user would, in the same way we did in previous section:
+Let's ensure the test container can access the host's network just like a user would, same as we did in previous section:
 
 - create `test/dockerfile`
 
