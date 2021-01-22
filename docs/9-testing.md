@@ -89,8 +89,93 @@ services:
 
 ### Local
 
-- create a new folder `test`
-- ...
+- `mkdir test & cd test`
+- `npm init -y`
+- `npm i -D @types/node jasmine @types/jasmine protractor @types/protractor puppeteer @types/puppeteer ts-node-dev typescript`
+- `tsc --init`
+- create `env.ts`
+
+```ts
+export default Object.freeze({
+  URL: e(process.env.URL) || "http://localhost:4200/",
+  HEADLESS: (e(process.env.HEADLESS) || "true") === "true"
+});
+
+function e(val: string | undefined) { return typeof val !== "undefined" ? String(val).trim() : ""; }
+```
+
+- create `protractor.ts`
+
+```ts
+import { execSync } from "child_process";
+import { executablePath } from "puppeteer";
+import { Config } from "protractor";
+import { env } from "./env";
+
+process.env.CHROME_BIN = executablePath();
+
+execSync("node node_modules/protractor/bin/webdriver-manager update", { stdio: "inherit" });
+
+console.log(env);
+
+export const config: Config = {
+  framework: "jasmine",
+  specs: ["./src/tests/**/*.test.ts"],
+  allScriptsTimeout: 30 * 1000,
+  capabilities: {
+    browserName: "chrome",
+    "goog:chromeOptions": {
+      binary: process.env.CHROME_BIN,
+      args: /* https://peter.sh/experiments/chromium-command-line-switches/ */[
+        "--disable-gpu",
+        "--no-sandbox",
+        "--ignore-certificate-errors",
+        "--disable-dev-shm-usage",
+        "--enable-features=NetworkService"
+      ]
+        .concat(env.HEADLESS ? ["--headless"] : [])
+    }
+  },
+};
+```
+
+- update `package.json` replace `test` script: `set HEADLESS=false & ts-node-dev node_modules/protractor/bin/protractor protractor.ts`
+
+- `mkdir src & cd src & mkdir tests & mkdir helpers & cd ..`
+- create a first test file `src/tests/apps-page.ts`
+
+```ts
+import { browser, by, element } from "protractor";
+import { env } from "../../env";
+
+// jasmine test suit
+describe("apps-page", function () {
+  // jasmine test hooks
+  beforeAll(() => console.log("starting a test suite"));
+  beforeEach(async () => await new Promise<void>(done => setTimeout(() => (console.log("starting a test"), done()), 3000)));
+  afterEach(() => console.log("finished a test"));
+  afterAll(() => console.log("finished a test suite"));
+
+  // jasmine async test
+  it("should show login", async () => {
+    await browser.get(env.URL);
+    const loginComponent = element(by.css("app-login"));
+    expect(await loginComponent.isPresent()).toBe(true);
+  });
+
+  // jasmine sync test
+  it("should show login - the wrong way to do it using protractor's implicit transformation to sync", () => {
+    browser.get(env.URL);
+    const loginComponent = element(by.css("app-login"));
+    expect(<boolean><any>loginComponent.isPresent()).toBe(true);
+  });
+});
+```
+
+- check if app is app and running `http://localhost:4200`; if not, start it as usual (in docker) `docker-compose up --build`
+- run the test `npm test` => SUCCESS
+- you can disable the second test by replacing `it` with `xit`; you can disable an entire suit with `xdescribe`
+- you can also `focus` tests by `fit` or `fdescribe` - this will only run the `f` tests ignoring the regular ones
 
 ### Docker
 
@@ -139,6 +224,8 @@ Let's ensure the test container can access the host's network just like a user w
 
 ```dockerfile
 FROM node:14.15.4
+RUN apt update & \
+    apt install -y apt-utils vim libx11-xcb1 libxtst6 libnss3 libxss1 libasound2 libatk-bridge2.0-0 libgtk-3-0 default-jre
 CMD curl http://localhost:4200
 ```
 
@@ -170,14 +257,27 @@ See [exercise](#exercise) section, this is your graduation exersice :)
 
 ## Exercise
 
-- unit testing
-  - TBD
+### unit testing
 
-- integration testing
-  - TBD
+TBD
 
-- system level testing
-  - wipe the demo `test/dockerfile` and add all necesary info to run tests in a container, exactly the same as they did locally
+### system level testing
+
+#### authorize helper
+
+- create a helper `authorize.ts` that types in `admin` and presses `Log in` if form is shown, or doesn't do anything if not
+- ensure the helper can be called repeatedly without errors
+
+#### create one test per page
+
+- create one test for each of the 3 pages (not including the login, we're still pretending this is an external page that we're not testing).
+- each should verify that an element exists on the page.
+- use `authorize.ts` helper in all test files in a `beforeAll` hook
+
+#### replicate to docker
+
+- delete the demo `CMD` line from `test/dockerfile` and add all necesary info to run tests in a container, exactly the same as they did locally
+- hint: remove `set HEADLESS=false` part from test script from `package.json`, it will fail otherwise, can't have windows in Docker
 
 ---
 
