@@ -15,25 +15,40 @@
 
 ## Prerequisites
 
-TBD
+same as [3-docker](3-docker.md) and [8-docker](8-docker.md)
 
 ---
 
 ## Unit
 
-TBD
+### Client unit tests
+
+`docker-compose build client` => enable `npm run test` step
+
+### Server unit tests
+
+`docker-compose build server` => would include something similar to `npm run test`, but we have a fake server, no point test it
 
 ---
 
 ## Integration
 
-TBD
+### Client integration tests
+
+`docker-compose build client` => enable `npm run e2e` step
+
+### Server integration tests
+
+`docker-compose build server` => would include something similar to `npm run e2e`, but we have a fake server, no point test it
 
 ---
 
 ## System
 
-TBD
+```shell
+docker-compose up --build test
+docker-compose down
+```
 
 ---
 
