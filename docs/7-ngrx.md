@@ -142,10 +142,7 @@ export type AppsActions =
   | LoadTypesSucess
   | LoadTypesFail
   | SelectType;
-
 ```
-
----
 
 ## Reducer
 
@@ -366,6 +363,7 @@ import * as appsActions from './../state/apps.actions';
 ```
 
 - For now, comment out any errors that result from the service removal, both in the code and the template and run the application
+
 - Notice the Actions being dispatched in the Chrome dev tools "Redux" tab
 
 ## Selecting data

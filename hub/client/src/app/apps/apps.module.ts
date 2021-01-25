@@ -10,13 +10,21 @@ import { LauncherComponent } from './launcher/launcher.component';
 import { NameitPipe } from './nameit.pipe';
 import { WebOrDesktopDirective } from './web-or-desktop.directive';
 import { LauncherValidatorDirective } from './launcher-validator.directive';
+import { EffectsModule } from '@ngrx/effects';
+import { reducer } from './state/apps.reducer';
+import { StoreModule } from '@ngrx/store'
+import { AppsEffects } from './state/apps.effects';
 
 @NgModule({
   declarations: [AppsPageComponent, LauncherComponent, NameitPipe, WebOrDesktopDirective, LauncherValidatorDirective],
   imports: [
     CommonModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forFeature('apps', reducer),
+    EffectsModule.forFeature(
+      [ AppsEffects ]
+    ),
   ],
   providers: [
     AppsService,
