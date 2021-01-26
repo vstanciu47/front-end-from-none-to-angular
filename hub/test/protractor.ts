@@ -2,12 +2,9 @@ import { execSync } from "child_process";
 import { executablePath } from "puppeteer";
 import { Config } from "protractor";
 import { env } from "./env";
+import psList from "ps-list";
 
 process.env.CHROME_BIN = executablePath();
-
-execSync("node node_modules/protractor/bin/webdriver-manager update", {
-  stdio: "inherit",
-});
 
 console.log(env);
 
@@ -27,5 +24,15 @@ export const config: Config = {
         "--enable-features=NetworkService",
       ].concat(env.HEADLESS ? ["--headless"] : []),
     },
+  },
+  beforeLaunch() {
+    execSync("node node_modules/protractor/bin/webdriver-manager update", {
+      stdio: "inherit",
+    });
+  },
+  async afterLaunch() {
+    (await psList())
+      .filter((p) => p.name.startsWith("chromedriver_"))
+      .forEach((p) => process.kill(p.pid));
   },
 };
