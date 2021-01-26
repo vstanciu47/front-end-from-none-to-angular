@@ -7,7 +7,9 @@
 - [Reorganize](#reorganize)
 - [Unit](#unit)
 - [Integration](#integration)
+- [Unit & integration tests in Docker](#unit-integration-tests-in-Docker)
 - [System](#system)
+- [System tests in Docker](#system-tests-in-docker)
 - [Exercise](#exercise)
 
 - [Next](#next)
@@ -77,7 +79,135 @@ services:
 
 ### Client integration tests
 
-`docker-compose build client` => enable `npm run e2e` step
+This should test whole modules (even the root module is possible).  
+The only restriction is the use of external dependencies, which have to be mocked.  
+In this example, we will test `apps.module`, just to demo mocking http calls.  
+
+- in `src/app/apps/apps.module.ts`
+  - move the object form `@NgModule({ ... })` decoration to `export const appsModule: NgModule = { ... }`
+  - update the decoration with references to the const `@NgModule({ declarations: appsModule.declarations, ... })`
+
+- create a new module spec file for apps module: `src/app/apps/apps.module.it.spec.ts`
+
+```ts
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppsPageComponent } from './apps-page/apps-page.component';
+import { appsModule } from './apps.module';
+
+fdescribe('AppsModule', () => {
+  let component: AppsPageComponent;
+  let fixture: ComponentFixture<AppsPageComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: appsModule.declarations,
+      imports: appsModule.imports,
+      providers: appsModule.providers,
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(AppsPageComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should be created', () => expect(component).toBeTruthy());
+});
+```
+
+- start the test suite `ng test` => FAIL due to missing deps (ngrx); these are set in main module, so we have to declare them in the test module as well
+
+- in `src/app/app.module.ts`
+  - extract NgRx stuff into an exported const and update the local use in decorator:
+
+```ts
+export const ngrxImports: NgModule['imports'] = [
+  StoreModule.forRoot({}, {}),
+  EffectsModule.forRoot([]),
+  !environment.production ? StoreDevtoolsModule.instrument() : [],
+  StoreDevtoolsModule.instrument({
+    name: 'Mini-Hub App DevTools',
+    maxAge: 25,
+    logOnly: environment.production,
+  }),
+];
+
+@NgModule({
+  imports: [BrowserModule, AppRoutingModule, FormsModule].concat(ngrxImports as any[])
+})
+```
+
+- back in our test, import `ngrxImports` and concat it to the test module imports:
+
+```ts
+import { ngrxImports } from '../app.module';
+
+TestBed.configureTestingModule({
+  imports: new Array<any>()
+    .concat(appsModule.imports)
+    .concat(ngrxImports),
+```
+
+- save and check tests...it appears to be fine but still FAIL; open dev tools and check log: missing deps (router); this is also set in main module, so we need to do it in our test module too (without any actual routes, we're not testing routing)
+
+```ts
+TestBed.configureTestingModule({
+  imports: ...
+    .concat([RouterModule.forRoot([])])
+```
+
+- save and check tests...it appears to be fine but still FAIL; in console we see 2 http requests failed; so in our test module we have to intercept http calls and resolve with mocked values; let's add an interceptor (and fix imports):
+
+```ts
+const apps = [{ id: 1, name: 'app 1', typeId: 1 }];
+
+const types = [{ id: 1, name: 'web' }];
+
+@Injectable()
+class HttpRequestInterceptorMock implements HttpInterceptor {
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    switch (request.url) {
+      case '/apps':
+        return of(new HttpResponse({ status: 200, body: apps }));
+      case '/types':
+        return of(new HttpResponse({ status: 200, body: types }));
+      default:
+        return next.handle(request);
+    }
+  }
+}
+```
+
+- and provide it as part of our test module:
+
+```ts
+TestBed.configureTestingModule({
+  providers: new Array<any>()
+    .concat([
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: HttpRequestInterceptorMock,
+        multi: true,
+      },
+    ])
+    .concat(appsModule.providers),
+```
+
+- save and check tests => SUCCESS! we can see the apps page with one app (we hardcoded it); a usefull check would be at least the number of displayed apps:
+
+```ts
+it('should show one app', () => {
+  const html = <HTMLElement>fixture.nativeElement;
+  const launchers = Array.prototype.slice.call(
+    html.querySelectorAll('app-launcher')
+  ) as HTMLElement[];
+  expect(launchers.length).toEqual(1);
+});
+```
+
+- of course, this is just a demo test; we should instrument the mock to return as many combinations as we need (404, 500, no types, no apps, 10000 apps, etc) to test the logic of the module
 
 ### Server integration tests
 
@@ -85,9 +215,39 @@ services:
 
 ---
 
-## System
+## Unit & integration tests in Docker
 
-### Local
+- `npm i -D puppeteer`
+- in `karma.conf.js`
+
+```ts
+process.env.CHROME_BIN = require("puppeteer").executablePath();
+
+module.exports = function (config) {
+  config.set({
+    browsers: ['ChromeHeadlessNoSandbox'],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox']
+      }
+    }
+```
+
+- in `package.json` > `scripts` > `"test": "ng test --watch=false" --browsers=ChromeHeadlessNoSandbox`
+- `npm test` will now use a headless `Chromium` instance provided by `puppeteer` and can run in container
+- update `client/dockerfile`
+
+```dockerfile
+FROM node:14.15.4
+RUN apt update && \
+    apt install -y apt-utils libx11-xcb1 libxtst6 libnss3 libxss1 libasound2 libatk-bridge2.0-0 libgtk-3-0 default-jre
+```
+
+- enable step `RUN npm run test`
+- `docker-compose build client` => watch for test step run and log output
+
+## System
 
 - `mkdir test & cd test`
 - `npm init -y`
@@ -177,11 +337,11 @@ describe("apps-page", function () {
 - you can disable the second test by replacing `it` with `xit`; you can disable an entire suit with `xdescribe`
 - you can also `focus` tests by `fit` or `fdescribe` - this will only run the `f` tests ignoring the regular ones
 
-### Docker
+## System tests in Docker
 
-#### Docker prerequisites
+### Docker prerequisites
 
-##### Docker 'bridge' network
+#### Docker 'bridge' network
 
 In the docker workshop, in production subsection, we've set up two services `client` and `server` that are able to communicate between them.  
 This was possible because docker asigned them to a default shared subnet.  
@@ -208,7 +368,7 @@ The `driver: bridge` can be omitted, it is the default option; this basically pu
 Now when we run `docker-compose up`, a network named `hub_client` is created and used.  
 Did you notice that `networks` is an array? Well, every service can have as many networks as it needs; for example if `server` would need to communicate with a `db` service, then these two can do so using a separate network (so that `client` won't be able to communicate with `db`) - this is a security measure.
 
-##### Docker 'host' network
+#### Docker 'host' network
 
 The 'host' network driver puts the consuming service on the same network as the host.  
 So far, if we want to access the `client` network (in browser) we can do so using `http://localhost:4200`; this is possible because the `client` service publishes port 4200, meaning it forwards the container's port to the host's port 4200.  
@@ -216,7 +376,7 @@ Let's start a new container and try to access this URL from it: `docker run --rm
 If we want to reach the host's `localhost`, we have to put the container on the host's network; we do this by using `--net host`.  
 Let's try it again: `docker run --rm --net host node:14.15.4 curl http://localhost:4200` => SUCCESS.  
 
-#### Docker prototype
+### Docker prototype
 
 Let's ensure the test container can access the host's network just like a user would, same as we did in previous section:
 
@@ -224,8 +384,8 @@ Let's ensure the test container can access the host's network just like a user w
 
 ```dockerfile
 FROM node:14.15.4
-RUN apt update & \
-    apt install -y apt-utils vim libx11-xcb1 libxtst6 libnss3 libxss1 libasound2 libatk-bridge2.0-0 libgtk-3-0 default-jre
+RUN apt update && \
+    apt install -y apt-utils libx11-xcb1 libxtst6 libnss3 libxss1 libasound2 libatk-bridge2.0-0 libgtk-3-0 default-jre
 CMD curl http://localhost:4200
 ```
 
@@ -248,7 +408,7 @@ services:
 
 - start the extra `test` service: `docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build test` => SUCCESS, it logs our app's index.html
 
-#### Docker test
+### Docker test
 
 By now you should have ALL the information necesary to move the local testing in Docker.  
 See [exercise](#exercise) section, this is your graduation exersice :)
