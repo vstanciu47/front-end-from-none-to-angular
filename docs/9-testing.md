@@ -29,7 +29,6 @@ So let's split the projects first:
 
 - create `server` folder and move `mocks` folder and `dockerfile.server`
 - rename `server/dockerfile.server` to `server/dockerfile`
-- edit `server/dockerfile` and replace volume `/hub/mocks/db.json` with `/hub/server/mocks/db.json`
 
 - create `client` folder and move everything apart from `.dockerignore`, `.gitignore`, `docker-compose.yml`
 - rename `client/dockerfile.client` to `client/dockerfile`
@@ -61,7 +60,11 @@ services:
 **/docker-compose.yml
 ```
 
-- verify it still works `docker-compose up --build` => ensure `http://localhost:4200` works
+- update `package.json` > `scripts` > `"json-server": "json-server --watch mocks/db.json --host 0.0.0.0"`
+
+- verify it still works
+  - `npm start` => ensure `http://localhost:4200` works
+  - `docker-compose up --build` => ensure `http://localhost:4200` works
 
 ## Unit
 
@@ -256,7 +259,7 @@ RUN apt update && \
 - create `env.ts`
 
 ```ts
-export default Object.freeze({
+export const env = Object.freeze({
   URL: e(process.env.URL) || "http://localhost:4200/",
   HEADLESS: (e(process.env.HEADLESS) || "true") === "true"
 });
@@ -302,7 +305,7 @@ export const config: Config = {
 - update `package.json` replace `test` script: `set HEADLESS=false & ts-node-dev node_modules/protractor/bin/protractor protractor.ts`
 
 - `mkdir src & cd src & mkdir tests & mkdir helpers & cd ..`
-- create a first test file `src/tests/apps-page.ts`
+- create a first test file `src/tests/apps-page.test.ts`
 
 ```ts
 import { browser, by, element } from "protractor";
