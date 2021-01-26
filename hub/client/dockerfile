@@ -12,9 +12,7 @@ COPY ./client/src/ ./src/
 RUN ng build --prod
 
 COPY ./client/tsconfig.spec.json ./client/karma.conf.js ./
-COPY ./client/e2e/ ./e2e/
 RUN npm run test
-# RUN npm run e2e
 
 ###########################################################################
 
