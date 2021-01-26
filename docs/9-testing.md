@@ -60,7 +60,11 @@ services:
 **/docker-compose.yml
 ```
 
-- verify it still works `docker-compose up --build` => ensure `http://localhost:4200` works
+- update `package.json` > `scripts` > `"json-server": "json-server --watch mocks/db.json --host 0.0.0.0"`
+
+- verify it still works
+  - `npm start` => ensure `http://localhost:4200` works
+  - `docker-compose up --build` => ensure `http://localhost:4200` works
 
 ## Unit
 
