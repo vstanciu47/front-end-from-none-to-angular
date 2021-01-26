@@ -259,7 +259,7 @@ RUN apt update && \
 - create `env.ts`
 
 ```ts
-export default Object.freeze({
+export const env = Object.freeze({
   URL: e(process.env.URL) || "http://localhost:4200/",
   HEADLESS: (e(process.env.HEADLESS) || "true") === "true"
 });
@@ -305,7 +305,7 @@ export const config: Config = {
 - update `package.json` replace `test` script: `set HEADLESS=false & ts-node-dev node_modules/protractor/bin/protractor protractor.ts`
 
 - `mkdir src & cd src & mkdir tests & mkdir helpers & cd ..`
-- create a first test file `src/tests/apps-page.ts`
+- create a first test file `src/tests/apps-page.test.ts`
 
 ```ts
 import { browser, by, element } from "protractor";
