@@ -15,7 +15,7 @@ import { reducer } from './state/apps.reducer';
 import { StoreModule } from '@ngrx/store'
 import { AppsEffects } from './state/apps.effects';
 
-@NgModule({
+export const appsModule: NgModule = {
   declarations: [AppsPageComponent, LauncherComponent, NameitPipe, WebOrDesktopDirective, LauncherValidatorDirective],
   imports: [
     CommonModule,
@@ -31,5 +31,11 @@ import { AppsEffects } from './state/apps.effects';
     { provide: HTTP_INTERCEPTORS, useClass: BearerHeaderInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: UnauthorisedInterceptor, multi: true },
   ]
+};
+
+@NgModule({
+  declarations: appsModule.declarations,
+  imports: appsModule.imports,
+  providers: appsModule.providers,
 })
-export class AppsModule { }
+export class AppsModule {}

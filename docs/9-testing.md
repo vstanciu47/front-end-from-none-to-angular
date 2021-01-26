@@ -77,7 +77,135 @@ services:
 
 ### Client integration tests
 
-`docker-compose build client` => enable `npm run e2e` step
+This should test whole modules (even the root module is possible).  
+The only restriction is the use of external dependencies, which have to be mocked.  
+In this example, we will test `apps.module`, just to demo mocking http calls.  
+
+- in `src/app/apps/apps.module.ts`
+  - move the object form `@NgModule({ ... })` decoration to `export const appsModule: NgModule = { ... }`
+  - update the decoration with references to the const `@NgModule({ declarations: appsModule.declarations, ... })`
+
+- create a new module spec file for apps module: `src/app/apps/apps.module.it.spec.ts`
+
+```ts
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppsPageComponent } from './apps-page/apps-page.component';
+import { appsModule } from './apps.module';
+
+fdescribe('AppsModule', () => {
+  let component: AppsPageComponent;
+  let fixture: ComponentFixture<AppsPageComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: appsModule.declarations,
+      imports: appsModule.imports,
+      providers: appsModule.providers,
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(AppsPageComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should be created', () => expect(component).toBeTruthy());
+});
+```
+
+- start the test suite `ng test` => FAIL due to missing deps (ngrx); these are set in main module, so we have to declare them in the test module as well
+
+- in `src/app/app.module.ts`
+  - extract NgRx stuff into an exported const and update the local use in decorator:
+
+```ts
+export const ngrxImports: NgModule['imports'] = [
+  StoreModule.forRoot({}, {}),
+  EffectsModule.forRoot([]),
+  !environment.production ? StoreDevtoolsModule.instrument() : [],
+  StoreDevtoolsModule.instrument({
+    name: 'Mini-Hub App DevTools',
+    maxAge: 25,
+    logOnly: environment.production,
+  }),
+];
+
+@NgModule({
+  imports: [BrowserModule, AppRoutingModule, FormsModule].concat(ngrxImports as any[])
+})
+```
+
+- back in our test, import `ngrxImports` and concat it to the test module imports:
+
+```ts
+import { ngrxImports } from '../app.module';
+
+TestBed.configureTestingModule({
+  imports: new Array<any>()
+    .concat(appsModule.imports)
+    .concat(ngrxImports),
+```
+
+- save and check tests...it appears to be fine but still FAIL; open dev tools and check log: missing deps (router); this is also set in main module, so we need to do it in our test module too (without any actual routes, we're not testing routing)
+
+```ts
+TestBed.configureTestingModule({
+  imports: ...
+    .concat([RouterModule.forRoot([])])
+```
+
+- save and check tests...it appears to be fine but still FAIL; in console we see 2 http requests failed; so in our test module we have to intercept http calls and resolve with mocked values; let's add an interceptor (and fix imports):
+
+```ts
+const apps = [{ id: 1, name: 'app 1', typeId: 1 }];
+
+const types = [{ id: 1, name: 'web' }];
+
+@Injectable()
+class HttpRequestInterceptorMock implements HttpInterceptor {
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    switch (request.url) {
+      case '/apps':
+        return of(new HttpResponse({ status: 200, body: apps }));
+      case '/types':
+        return of(new HttpResponse({ status: 200, body: types }));
+      default:
+        return next.handle(request);
+    }
+  }
+}
+```
+
+- and provide it as part of our test module:
+
+```ts
+TestBed.configureTestingModule({
+  providers: new Array<any>()
+    .concat([
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: HttpRequestInterceptorMock,
+        multi: true,
+      },
+    ])
+    .concat(appsModule.providers),
+```
+
+- save and check tests => SUCCESS! we can see the apps page with one app (we hardcoded it); a usefull check would be at least the number of displayed apps:
+
+```ts
+it('should show one app', () => {
+  const html = <HTMLElement>fixture.nativeElement;
+  const launchers = Array.prototype.slice.call(
+    html.querySelectorAll('app-launcher')
+  ) as HTMLElement[];
+  expect(launchers.length).toEqual(1);
+});
+```
+
+- of course, this is just a demo test; we should instrument the mock to return as many combinations as we need (404, 500, no types, no apps, 10000 apps, etc) to test the logic of the module
 
 ### Server integration tests
 
