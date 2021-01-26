@@ -1,4 +1,6 @@
 FROM node:14.15.4 AS build
+RUN apt update && \
+    apt install -y apt-utils libx11-xcb1 libxtst6 libnss3 libxss1 libasound2 libatk-bridge2.0-0 libgtk-3-0 default-jre
 RUN npm i -g @angular/cli@8
 WORKDIR /hub
 
@@ -11,7 +13,7 @@ RUN ng build --prod
 
 COPY ./client/tsconfig.spec.json ./client/karma.conf.js ./
 COPY ./client/e2e/ ./e2e/
-# RUN npm run test
+RUN npm run test
 # RUN npm run e2e
 
 ###########################################################################

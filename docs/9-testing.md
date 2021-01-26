@@ -7,7 +7,9 @@
 - [Reorganize](#reorganize)
 - [Unit](#unit)
 - [Integration](#integration)
+- [Unit & integration tests in Docker](#unit-integration-tests-in-Docker)
 - [System](#system)
+- [System tests in Docker](#system-tests-in-docker)
 - [Exercise](#exercise)
 
 - [Next](#next)
@@ -213,9 +215,39 @@ it('should show one app', () => {
 
 ---
 
-## System
+## Unit & integration tests in Docker
 
-### Local
+- `npm i -D puppeteer`
+- in `karma.conf.js`
+
+```ts
+process.env.CHROME_BIN = require("puppeteer").executablePath();
+
+module.exports = function (config) {
+  config.set({
+    browsers: ['ChromeHeadlessNoSandbox'],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox']
+      }
+    }
+```
+
+- in `package.json` > `scripts` > `"test": "ng test --watch=false" --browsers=ChromeHeadlessNoSandbox`
+- `npm test` will now use a headless `Chromium` instance provided by `puppeteer` and can run in container
+- update `client/dockerfile`
+
+```dockerfile
+FROM node:14.15.4
+RUN apt update && \
+    apt install -y apt-utils libx11-xcb1 libxtst6 libnss3 libxss1 libasound2 libatk-bridge2.0-0 libgtk-3-0 default-jre
+```
+
+- enable step `RUN npm run test`
+- `docker-compose build client` => watch for test step run and log output
+
+## System
 
 - `mkdir test & cd test`
 - `npm init -y`
@@ -305,11 +337,11 @@ describe("apps-page", function () {
 - you can disable the second test by replacing `it` with `xit`; you can disable an entire suit with `xdescribe`
 - you can also `focus` tests by `fit` or `fdescribe` - this will only run the `f` tests ignoring the regular ones
 
-### Docker
+## System tests in Docker
 
-#### Docker prerequisites
+### Docker prerequisites
 
-##### Docker 'bridge' network
+#### Docker 'bridge' network
 
 In the docker workshop, in production subsection, we've set up two services `client` and `server` that are able to communicate between them.  
 This was possible because docker asigned them to a default shared subnet.  
@@ -336,7 +368,7 @@ The `driver: bridge` can be omitted, it is the default option; this basically pu
 Now when we run `docker-compose up`, a network named `hub_client` is created and used.  
 Did you notice that `networks` is an array? Well, every service can have as many networks as it needs; for example if `server` would need to communicate with a `db` service, then these two can do so using a separate network (so that `client` won't be able to communicate with `db`) - this is a security measure.
 
-##### Docker 'host' network
+#### Docker 'host' network
 
 The 'host' network driver puts the consuming service on the same network as the host.  
 So far, if we want to access the `client` network (in browser) we can do so using `http://localhost:4200`; this is possible because the `client` service publishes port 4200, meaning it forwards the container's port to the host's port 4200.  
@@ -344,7 +376,7 @@ Let's start a new container and try to access this URL from it: `docker run --rm
 If we want to reach the host's `localhost`, we have to put the container on the host's network; we do this by using `--net host`.  
 Let's try it again: `docker run --rm --net host node:14.15.4 curl http://localhost:4200` => SUCCESS.  
 
-#### Docker prototype
+### Docker prototype
 
 Let's ensure the test container can access the host's network just like a user would, same as we did in previous section:
 
@@ -352,8 +384,8 @@ Let's ensure the test container can access the host's network just like a user w
 
 ```dockerfile
 FROM node:14.15.4
-RUN apt update & \
-    apt install -y apt-utils vim libx11-xcb1 libxtst6 libnss3 libxss1 libasound2 libatk-bridge2.0-0 libgtk-3-0 default-jre
+RUN apt update && \
+    apt install -y apt-utils libx11-xcb1 libxtst6 libnss3 libxss1 libasound2 libatk-bridge2.0-0 libgtk-3-0 default-jre
 CMD curl http://localhost:4200
 ```
 
@@ -376,7 +408,7 @@ services:
 
 - start the extra `test` service: `docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build test` => SUCCESS, it logs our app's index.html
 
-#### Docker test
+### Docker test
 
 By now you should have ALL the information necesary to move the local testing in Docker.  
 See [exercise](#exercise) section, this is your graduation exersice :)
