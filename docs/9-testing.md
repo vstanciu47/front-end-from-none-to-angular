@@ -414,7 +414,7 @@ services:
 ### Docker test
 
 By now you should have ALL the information necesary to move the local testing in Docker.  
-See [exercise](#exercise) section, this is your graduation exercice :)
+See [exercise](#exercise) section, this is your graduation exercise :)
 
 ---
 
