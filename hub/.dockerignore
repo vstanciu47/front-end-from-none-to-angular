@@ -1,7 +1,6 @@
-dist
-node_modules
-.editorconfig
-.gitignore
-dockerfile.client
-dockerfile.server
-docker-compose.yml
+**/dist
+**/node_modules
+**/.editorconfig
+**/.gitignore
+**/dockerfile
+**/docker-compose.yml

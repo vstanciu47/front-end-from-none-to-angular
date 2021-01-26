@@ -420,27 +420,18 @@ See [exercise](#exercise) section, this is your graduation exersice :)
 
 ## Exercise
 
-### unit testing
+- authorize helper
+  - create a helper `authorize.ts` that types in `admin` and presses `Log in` if form is shown, or doesn't do anything if not
+  - ensure the helper can be called repeatedly without errors
 
-TBD
+- create one test per page
+  - create one test for each of the 3 pages (not including the login, we're still pretending this is an external page that we're not testing).
+  - each should verify that an element exists on the page.
+  - use `authorize.ts` helper in all test files in a `beforeAll` hook
 
-### system level testing
-
-#### authorize helper
-
-- create a helper `authorize.ts` that types in `admin` and presses `Log in` if form is shown, or doesn't do anything if not
-- ensure the helper can be called repeatedly without errors
-
-#### create one test per page
-
-- create one test for each of the 3 pages (not including the login, we're still pretending this is an external page that we're not testing).
-- each should verify that an element exists on the page.
-- use `authorize.ts` helper in all test files in a `beforeAll` hook
-
-#### replicate to docker
-
-- delete the demo `CMD` line from `test/dockerfile` and add all necesary info to run tests in a container, exactly the same as they did locally
-- hint: remove `set HEADLESS=false` part from test script from `package.json`, it will fail otherwise, can't have windows in Docker
+- replicate to docker
+  - delete the demo `CMD` line from `test/dockerfile` and add all necesary info to run tests in a container, exactly the same as they did locally
+  - hint: remove `set HEADLESS=false` part from test script from `package.json`, it will fail otherwise, can't have windows in Docker
 
 ---
 
