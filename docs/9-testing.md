@@ -60,7 +60,7 @@ services:
 **/docker-compose.yml
 ```
 
-- update `package.json` > `scripts` > `"json-server": "json-server --watch mocks/db.json --host 0.0.0.0"`
+- update `package.json` > `scripts` > `"json-server": "cd ../server & json-server --watch mocks/db.json --host 0.0.0.0"`
 
 - verify it still works
   - `npm start` => ensure `http://localhost:4200` works
