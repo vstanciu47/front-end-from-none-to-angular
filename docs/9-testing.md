@@ -29,7 +29,6 @@ So let's split the projects first:
 
 - create `server` folder and move `mocks` folder and `dockerfile.server`
 - rename `server/dockerfile.server` to `server/dockerfile`
-- edit `server/dockerfile` and replace volume `/hub/mocks/db.json` with `/hub/server/mocks/db.json`
 
 - create `client` folder and move everything apart from `.dockerignore`, `.gitignore`, `docker-compose.yml`
 - rename `client/dockerfile.client` to `client/dockerfile`
