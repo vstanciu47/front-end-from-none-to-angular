@@ -1,2 +1,12 @@
 FROM node:14.15.4
-CMD curl http://localhost:4200
+RUN apt update && \
+    apt install -y apt-utils libx11-xcb1 libxtst6 libnss3 libxss1 libasound2 libatk-bridge2.0-0 libgtk-3-0 default-jre
+WORKDIR /test
+
+COPY ./test/package.json .
+RUN npm i
+
+COPY ./test/env.ts ./test/protractor.ts ./test/tsconfig.json ./
+COPY ./test/src/ ./src/
+
+CMD npm run test:docker

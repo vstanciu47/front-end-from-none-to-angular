@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "set HEADLESS=false & ts-node-dev node_modules/protractor/bin/protractor protractor.ts"
+    "test": "set HEADLESS=false & ts-node-dev node_modules/protractor/bin/protractor protractor.ts",
+    "test:docker": "ts-node-dev node_modules/protractor/bin/protractor protractor.ts"
   },
   "keywords": [],
   "author": "",
