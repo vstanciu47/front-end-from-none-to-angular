@@ -1,10 +1,7 @@
 import { execSync } from "child_process";
-import { executablePath } from "puppeteer";
 import { Config } from "protractor";
 import { env } from "./env";
 import psList from "ps-list";
-
-process.env.CHROME_BIN = executablePath();
 
 console.log(env);
 
