@@ -40,7 +40,7 @@ The tutorials are easy to follow and yield immediate results, so have fun buildi
 
 - [Student WebDevs Team](https://teams.microsoft.com/l/team/19%3a8d24e23215974915b710387043ac4682%40thread.tacv2/conversations?groupId=8e170955-63ec-432a-94a5-3c05051e1c0b&tenantId=6d2c7112-af95-4e9e-acd6-d2a990e40851)
 - [Curs FullStackWebDevelopment](https://web.microsoftstream.com/channel/8507447a-cb97-41bc-a53a-7583e3011946)
-- [NodeJs API for a .NET developer](https://code.waters.com/bitbucket/users/rovian/repos/nodejs-api-for-a-.net-developer)
+- [NodeJs API for a .NET developer](https://github.com/vallyian/nodejs-api-for-a-.net-developer.git)
 
 ---
 
