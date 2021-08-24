@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "ssh://git@bitbucketprod1.waters.com:7999/~rovian/frontend-from-none-to-angular.git"
+    "url": "https://github.com/vallyian/nodejs-api-for-a-.net-developer.git"
   },
   "author": "valentin.ianchis@waters.com",
   "license": "ISC",
